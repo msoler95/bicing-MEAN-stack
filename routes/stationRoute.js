@@ -26,7 +26,7 @@ var deleteDB = function (callback) {
 }
 
 var getDataFromBicingApi = function (url, callback) {
-    request('http://api.citybik.es/bicing.json', function (error, response, body) {
+    request(url, function (error, response, body) {
         if (error) console.log(error)
         else {
             var stations = JSON.parse(body);
