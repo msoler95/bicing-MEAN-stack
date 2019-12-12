@@ -9,7 +9,6 @@ router.get('/', function (req, res) {
 });
 
 router.post('/createDummyDB', function (req, res) {
-
     var url = 'http://api.citybik.es/bicing.json';
     deleteDB(function () {
         getDataFromBicingApi(url, function (stations) {
