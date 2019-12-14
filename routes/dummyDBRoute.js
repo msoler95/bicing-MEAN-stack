@@ -12,24 +12,13 @@ router.get('/', async function (req, res) {
     await deleteDB()
     var url = 'http://api.citybik.es/bicing.json';
     let stations = await getDataFromBicingApi(url)
-    var iterations = 2;
+    var iterations = 25;
     for (let i = 0; i < iterations; ++i) {
-        console.log('iteracion ' + i + ': generateBicingDummyData empezamos')
-        let dummyStations = await generateBicingDummyData(stations, i)
-        console.log('iteracion ' + i + ': addDataToDB empezamos')
+        let dummyStations = await generateBicingDummyData(stations, 1)
         await addDataToDB(dummyStations)
-        console.log('iteracion ' + i + ': addDataToDB acabamos')
         if (i == iterations - 1) res.json({ success: true, msg: 'Stations added' })
     }
 });
-
-var prueba = async function (i, callback) {
-    await setTimeout(async () => {
-        console.log('iteracion ' + i + ': prueba finalizada')
-        callback();
-    }, 300);
-
-}
 
 
 var deleteDB = async function () {
@@ -55,11 +44,13 @@ var getDataFromBicingApi = function (url) {
 }
 
 var generateBicingDummyData = async function (stations, iteration) {
+
+    console.log('iteration: ' + iteration)
     return new Promise(function (res) {
         async.each(
             stations,
             async function (station) {
-                var fecha = await moment(station.timestamp).subtract(iteration, 'h');
+                var fecha = await moment(station.timestamp).add(iteration, 'hours');
                 station.timestamp = fecha;
             },
             function (err) {
@@ -69,7 +60,6 @@ var generateBicingDummyData = async function (stations, iteration) {
             }
         )
     })
-
 }
 
 
