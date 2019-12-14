@@ -9,20 +9,48 @@ router.get('/', async function (req, res) {
 
     let stations = [];
 
+
+    //Filter by location
+    if (req.query.loc) {
+        var locArray = req.query.loc.split(',');
+        stations = await getStationsByLocation(locArray)
+    }
     //Filter by station
-    if (req.query.id) stations = await getOneStation(req.query.id);
+    else if (req.query.id) stations = await getOneStation(req.query.id);
+    //Not filtering 
     else stations = await getAllStations();
 
     //Filter by time
-    var timeFrom = "2019-12-15T13:49:23.546Z";
-    var timeTo = "2019-12-15T15:49:23.546Z"
-    if (req.query.timeFrom) stations = await filterByTimeFrom(timeFrom, stations)
-    if (req.query.timeEnd) stations = await filterByTimeTo(timeTo, stations)
+    if (req.query.timeFrom) stations = await filterByTimeFrom(req.query.timeFrom, stations)
+    if (req.query.timeEnd) stations = await filterByTimeTo(req.query.timeEnd, stations)
 
     console.log('ending')
     res.status(200).json(stations);
 
 });
+
+var getStationsByLocation = function (locArray) {
+    return new Promise(function (res) {
+        let location = {
+            lat: Number(locArray[0]),
+            lng: Number(locArray[1]),
+            distance: Number(locArray[2])
+        }
+        console.log('entramos')
+        var maxDistance = location.distance; //km
+        maxDistance = maxDistance * 1000;
+        Station.collection.geoNear(location.lat, location.lng, { "distanceMultiplier": 6371, spherical: true, maxDistance: maxDistance / 6370000 }, function (err, result) {
+            if (err) console.log(err)
+            else {
+                var stationsLocated = []
+                for (var i = 0; i < result.results.length; ++i) {
+                    stationsLocated.push(result.results[i].obj)
+                }
+                res(stationsLocated)
+            }
+        });
+    });
+}
 
 var getOneStation = function (id) {
     return new Promise(function (res) {
