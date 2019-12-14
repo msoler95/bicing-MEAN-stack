@@ -18,11 +18,9 @@ app.use(cors());
 //Server routes
 var stationRouter = require('./routes/stationRoute');
 var dummyRouter = require('./routes/dummyDBRoute');
-var entendreRouter = require('./routes/entendreAwait');
 
 app.use('/stations', stationRouter);
 app.use('/createDummyDB', dummyRouter);
-app.use('/entendreAwait', entendreRouter);
 
 var port = config.serverPort;
 var adress = config.serverUrl;
