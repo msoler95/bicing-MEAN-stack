@@ -9,7 +9,6 @@ router.get('/', async function (req, res) {
 
     let stations = [];
 
-
     //Filter by location
     if (req.query.loc) {
         var locArray = req.query.loc.split(',');
@@ -29,6 +28,47 @@ router.get('/', async function (req, res) {
 
 });
 
+router.get('/nearestStationWithFreeBikes', async function (req, res) {
+
+    var locArray = req.query.loc.split(',');
+    stations = await getNearestLocationWithFreeBikes(locArray)
+    res.status(200).json(stations);
+
+})
+var getNearestLocationWithFreeBikes = function (locArray) {
+    return new Promise(function (res) {
+        let location = {
+            lat: Number(locArray[0]),
+            lng: Number(locArray[1]),
+            distance: Number(locArray[2])
+        }
+        var maxDistance = location.distance; //km
+        maxDistance = maxDistance * 1000;
+        Station.collection.geoNear(location.lat, location.lng, { "distanceMultiplier": 6371, spherical: true, maxDistance: maxDistance / 6370000 }, function (err, result) {
+            if (err) console.log(err)
+            else {
+
+                var stationsLocated = {}
+                var found = false;
+                for (var i = 0; i < result.results.length && !found; ++i) {
+                    var station = result.results[i].obj;
+                    var numberOfTimes = station.times.length
+                    var lastTime = station.times[numberOfTimes - 1]
+                    if (lastTime.bikes > 0) {
+                        stationsLocated = station;
+                        stationsLocated.distance = result.results[i].dis;
+                        found = true;
+                        //station.distance = result.results[i].obj
+                    }
+
+                }
+                res(stationsLocated)
+            }
+        });
+    });
+}
+
+
 var getStationsByLocation = function (locArray) {
     return new Promise(function (res) {
         let location = {
@@ -36,7 +76,6 @@ var getStationsByLocation = function (locArray) {
             lng: Number(locArray[1]),
             distance: Number(locArray[2])
         }
-        console.log('entramos')
         var maxDistance = location.distance; //km
         maxDistance = maxDistance * 1000;
         Station.collection.geoNear(location.lat, location.lng, { "distanceMultiplier": 6371, spherical: true, maxDistance: maxDistance / 6370000 }, function (err, result) {
