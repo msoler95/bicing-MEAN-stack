@@ -47,7 +47,7 @@ var filterByTimeFrom = function (timeFrom, stations) {
 
     return new Promise(async function (res) {
         var indexToStart = -1;
-        if (stations.length != 0) indexToStart = await getStartPosition(stations[0], timeFrom) //Finds the first element before the time setted
+        if (stations.length != 0) indexToStart = await findPosition(stations[0], timeFrom) //Finds the first element before the time setted
         if (indexToStart != -1) {
             for (var i = 0; (i < stations.length); ++i) //For each station, delete the data before the time setted 
                 stations[i].times.splice(0, indexToStart)
@@ -56,16 +56,7 @@ var filterByTimeFrom = function (timeFrom, stations) {
     })
 }
 
-var getStartPosition = function (station, timeFrom) {
-    return new Promise(function (res) {
-        var found = -1;
-        for (var i = 0; (i < station.times.length) && (found == -1); ++i) {
-            if (moment(station.times[i].time).isAfter(timeFrom))
-                found = i;
-        }
-        res(found)
-    })
-}
+
 
 var filterByTimeTo = function (timeFrom, stations) {
 
@@ -75,9 +66,8 @@ var filterByTimeTo = function (timeFrom, stations) {
         var stationsLength = -1;
         if (stations.length != 0) {
             stationsLength = stations[0].times.length;
-            indexToStart = await getEndPosition(stations[0], timeFrom) //Finds the first element before the time setted
+            indexToStart = await findPosition(stations[0], timeFrom) //Finds the first element before the time setted
         }
-        console.log(indexToStart)
         if (indexToStart != -1) {
             for (var i = 0; (i < stations.length); ++i) //For each station, delete the data before the time setted 
                 stations[i].times.splice(indexToStart, stationsLength - indexToStart)
@@ -86,7 +76,7 @@ var filterByTimeTo = function (timeFrom, stations) {
     })
 }
 
-var getEndPosition = function (station, timeFrom) {
+var findPosition = function (station, timeFrom) {
     return new Promise(function (res) {
         var found = -1;
         for (var i = 0; (i < station.times.length) && (found == -1); ++i) {
@@ -96,6 +86,17 @@ var getEndPosition = function (station, timeFrom) {
         res(found)
     })
 }
+
+// var getEndPosition = function (station, timeFrom) {
+//     return new Promise(function (res) {
+//         var found = -1;
+//         for (var i = 0; (i < station.times.length) && (found == -1); ++i) {
+//             if (moment(station.times[i].time).isAfter(timeFrom))
+//                 found = i;
+//         }
+//         res(found)
+//     })
+// }
 
 module.exports = router;
 
