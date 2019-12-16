@@ -11,7 +11,6 @@ router.get('/', async function (req, res) {
 
     //Filter by location
     if (req.query.loc) {
-        var locArray = req.query.loc.split(',');
         stations = await getStationsByLocation(locArray)
     }
     //Filter by station
@@ -35,6 +34,50 @@ router.get('/nearestStationWithFreeBikes', async function (req, res) {
     res.status(200).json(stations);
 
 })
+
+router.get('/allStationsWithoutTime', async function (req, res) {
+
+    let stations = [];
+    stations = await getAllStations();
+    stations = await deleteTime(stations);
+    res.status(200).json(stations);
+
+});
+
+router.get('/timeInformation/:id', async function (req, res) {
+
+    let stations = [];
+    stations = await getOneStation(req.params.id);
+    station = stations[0];
+    stations = await parseTime(station);
+    res.status(200).json(stations);
+
+});
+
+var deleteTime = function (stations) {
+    return new Promise(function (res) {
+        for (var i = 0; i < stations.length; ++i) {
+            stations[i].times = []
+        }
+        res(stations)
+    })
+}
+
+var parseTime = function (station) {
+    return new Promise(function (res) {
+        var free = []
+        var bikes = []
+        var time = []
+        for (var j = 0; j < station.times.length; ++j) {
+            free.push(station.times[j].free)
+            bikes.push(station.times[j].bikes)
+            time.push(moment(station.times[j].time).format("h:mm"))
+        }
+        station = { free: free, bikes: bikes, time: time, name: station.name, id: station.id }
+        res(station)
+    })
+}
+
 var getNearestLocationWithFreeBikes = function (locArray) {
     return new Promise(function (res) {
         let location = {

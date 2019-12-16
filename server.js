@@ -22,6 +22,12 @@ var dummyRouter = require('./routes/dummyDBRoute');
 app.use('/stations', stationRouter);
 app.use('/createDummyDB', dummyRouter);
 
+app.use(express.static(__dirname + '/contactsapp'));
+
+app.get('*', function (req, res) {
+    res.sendfile(__dirname + '/contactsapp/index.html');
+});
+
 var port = config.serverPort;
 var adress = config.serverUrl;
 http.createServer(app).listen(port, adress, function () {
