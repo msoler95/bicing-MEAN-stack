@@ -1,0 +1,6 @@
+<h3>#{{timeInformation.id}} {{timeInformation.name}}</h3>
+<div style="display: block">
+    <app-bar-chart [free]="timeInformation.free" [bikes]="timeInformation.bikes" [time]="timeInformation.time">
+    </app-bar-chart>
+</div>
+<button class="button-return " mat-raised-button color="primary" (click)="goBack()">Volver</button>

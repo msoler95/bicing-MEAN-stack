@@ -20,16 +20,21 @@ var stationRouter = require('./routes/stationRoute');
 var dummyRouter = require('./routes/dummyDBRoute');
 
 app.use('/stations', stationRouter);
-app.use('/createDummyDB', dummyRouter);
+app.use('/createDummyDB', dummyRouter.router);
 
 app.use(express.static(__dirname + '/contactsapp'));
 
 app.get('*', function (req, res) {
-    res.sendfile(__dirname + '/contactsapp/index.html');
+    res.sendfile(__dirname + '/public/dist/contactsapp/index.html');
 });
 
 var port = config.serverPort;
 var adress = config.serverUrl;
+console.log(dummyRouter.hola)
 http.createServer(app).listen(port, adress, function () {
     console.log('Connected to: ' + adress + ':' + port)
+
+    dummyRouter.retrieveDataFromServer();
 });
+
+

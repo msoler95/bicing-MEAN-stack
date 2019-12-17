@@ -1,0 +1,35 @@
+<div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
+  <mat-toolbar color="primary" class="example-toolbar">
+    <button mat-icon-button (click)="snav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1 class="example-app-name">Bicing Dashboard</h1>
+  </mat-toolbar>
+  <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+    <mat-sidenav opened #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
+      fixedTopGap="56">
+      <mat-nav-list>
+        <mat-list role="list">
+          <p mat-list-item class="nav-item">
+            <a routerLink="/exercice1"> Ejercicio 1 </a>
+          </p>
+          <mat-divider></mat-divider>
+          <p mat-list-item class="nav-item">
+            <a routerLink="/exercice2"> Ejercicio 2.1 </a>
+          </p>
+          <mat-divider></mat-divider>
+          <p mat-list-item class="nav-item">
+            <a routerLink="/exercice2-2"> Ejercicio 2.2 </a>
+          </p>
+        </mat-list>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <div class="container">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+
+</div>

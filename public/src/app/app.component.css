@@ -1,0 +1,28 @@
+.example-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #eee;
+}
+.example-sidenav-container {
+    height: 100%;
+}
+
+.left-nav {
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+.nav-item {
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
+.container {
+    margin-left: 16px;
+    margin-right: 16px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}

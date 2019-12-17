@@ -1,0 +1,113 @@
+<mat-card>
+    <h1>Ejercicio 2.1</h1>
+    <p>Enunciado: Build an API REST with the data collected to let developers get more concrete
+        information: per station, time intervals, and geographical bounding box. </p>
+</mat-card>
+<mat-card>
+    <div fxLayout='column' fxFlex="100">
+        <div>
+
+            <!--By time-->
+            <div fxFlex="99" fxFlex.md="99">
+                <p>Buscar por horas</p>
+                <mat-form-field appearance="standard">
+                    <mat-label>Desde</mat-label>
+                    <input [format]="24" [ngxTimepicker]="pickerFrom" #valuePickerFrom matInput
+                        placeholder="Placeholder">
+                    <mat-icon matSuffix>access_time</mat-icon>
+                    <mat-hint>Example: 2:19</mat-hint>
+                </mat-form-field>
+                <ngx-material-timepicker (closed)="formatDateFrom(valuePickerFrom.value)" #pickerFrom>
+                </ngx-material-timepicker>
+                <mat-form-field appearance="standard">
+                    <mat-label>Hasta</mat-label>
+                    <input [ngxTimepicker]="pickerTo" [format]="24" matInput #valuePickerTo placeholder="Placeholder">
+                    <mat-icon matSuffix>access_time</mat-icon>
+                    <mat-hint>Example: 13:30</mat-hint>
+                </mat-form-field>
+                <ngx-material-timepicker (closed)="formatDateTo(valuePickerTo.value)" #pickerTo>
+                </ngx-material-timepicker>
+            </div>
+
+            <!--By location-->
+            <div fxFlex="99" fxFlex.md="99">
+                <p>Buscar por localización</p>
+                <mat-form-field appearance="standard">
+                    <mat-label>Latitud</mat-label>
+                    <input matInput [(ngModel)]="lat" placeholder="Placeholder">
+                    <mat-icon matSuffix>gps_fixed</mat-icon>
+                    <mat-hint>Example: 41.379632</mat-hint>
+                </mat-form-field>
+                <mat-form-field appearance="standard">
+                    <mat-label>Longitud</mat-label>
+                    <input matInput [(ngModel)]="lng" placeholder="Placeholder">
+                    <mat-icon matSuffix>gps_fixed</mat-icon>
+                    <mat-hint>Example: 2.192662</mat-hint>
+                </mat-form-field><br>
+                Radio de búsqueda
+                <mat-slider [max]="2" [min]="0" [step]="0.3" [(ngModel)]="radius" [thumbLabel]="true"
+                    [vertical]="vertical">radius
+                </mat-slider>
+
+            </div>
+
+            <!--By id-->
+            <div fxFlex="99" fxFlex.md="99">
+                <p>Buscar por id de la estación</p>
+                <span>(Aviso: Si se busca por id de estación, no se buscará por localización)</span>
+                <mat-form-field appearance="standard">
+                    <mat-label>Id</mat-label>
+                    <input matInput [(ngModel)]='idStation' placeholder="Placeholder">
+                    <mat-icon matSuffix>directions_bike</mat-icon>
+                    <mat-hint>Example: 3</mat-hint>
+                </mat-form-field>
+            </div>
+        </div>
+
+    </div>
+
+</mat-card>
+<mat-card>
+    <p><b>Query</b></p>
+    localhost:8080/stations/?<span *ngIf="valuePickerFromMoment">&timeFrom={{valuePickerFromMoment}}</span>
+    <span *ngIf="valuePickerToMoment">&timeEnd={{valuePickerToMoment}}</span>
+    <span *ngIf="lat || lng ">&loc={{lat}},{{lng}},{{radius}}</span>
+    <span *ngIf="idStation">&id={{idStation}}</span>
+
+    <br><br>
+    <button class="button-return " (click)="search()" mat-raised-button color="primary">Buscar</button>
+</mat-card>
+
+<p>{{stations.length}} estaciones encontradas</p>
+<div *ngIf="stations">
+    <table mat-table [dataSource]="stations" class="mat-elevation-z8">
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> ID </th>
+            <td mat-cell *matCellDef="let element"><span>{{element.id}}</span></td>
+        </ng-container>
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Nombre </th>
+            <td mat-cell *matCellDef="let element"><a routerLink="/station/{{element.id}}">{{element.name}}</a> </td>
+        </ng-container>
+        <ng-container matColumnDef="location">
+            <th mat-header-cell *matHeaderCellDef> Localización </th>
+            <td mat-cell *matCellDef="let element">
+                Latitud: {{element.loc.coordinates[0]}}<br>
+                Longitud: {{element.loc.coordinates[1]}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="horas">
+            <th mat-header-cell *matHeaderCellDef> Bicis por hora </th>
+            <td mat-cell *matCellDef="let element">
+                <span>
+                    <div *ngFor="let t of element.times">{{t.time}} -> {{t.bikes}} bicis</div>
+
+                </span> </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>

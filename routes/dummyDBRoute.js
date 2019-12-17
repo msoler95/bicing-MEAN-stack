@@ -5,15 +5,29 @@ var request = require("request");
 var async = require("async");
 var moment = require("moment");
 
+//Real Data From Server
 
+module.exports.retrieveDataFromServer = async function () {
+    await deleteDB()
+    var hours = 1 * 60 * 60 * 1000;
+    var url = 'http://api.citybik.es/bicing.json';
+    let stations = await getDataFromBicingApi(url)
+    await addDataToDB(stations)
+    setInterval(async function () {
+        var url = 'http://api.citybik.es/bicing.json';
+        let stations = await getDataFromBicingApi(url)
+        await addDataToDB(stations)
+    }, hours);
+};
 
+//Creates a fake DB (for local testing)
 router.get('/', async function (req, res) {
 
     await deleteDB()
     var url = 'http://api.citybik.es/bicing.json';
     let stations = await getDataFromBicingApi(url)
-    var iterations = 25;
-    console.log('Generating ' + 25 + ' fake requests')
+    var iterations = 28;
+    console.log('Generating ' + 24 + ' fake requests')
     for (let i = 0; i < iterations; ++i) {
         let dummyStations = await generateBicingDummyData(stations, 1)
         await addDataToDB(dummyStations)
@@ -23,6 +37,8 @@ router.get('/', async function (req, res) {
         }
     }
 });
+
+
 
 
 var deleteDB = async function () {
@@ -123,6 +139,18 @@ var addTime = function (station) {
         var totalBikes = (station.bikes + station.free)
         var randomFreeBikes = Math.floor(Math.random() * totalBikes);
         var time = { time: moment(station.timestamp), free: randomFreeBikes, bikes: totalBikes - randomFreeBikes };
+        //Reduce the array of times from 24 to 23 to add a new time
+        await Station.findOne({ id: station.id }, async function (err, s) {
+            if (s.times.length == 24) {
+                s.times.splice(0, 1)
+                await s.save(function (err) {
+                    if (err) {
+                        console.log('error')
+                    }
+                })
+            }
+        })
+        //Add a new time
         await Station.findOneAndUpdate({ id: station.id }, { $push: { times: time } }, function (err, s) {
             if (err) {
                 console.log(err);
@@ -136,4 +164,5 @@ var addTime = function (station) {
 
 }
 
-module.exports = router;
+
+module.exports.router = router;

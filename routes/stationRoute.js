@@ -5,6 +5,7 @@ var request = require("request");
 var async = require("async");
 var moment = require("moment");
 
+
 router.get('/', async function (req, res) {
 
     let stations = [];
@@ -28,6 +29,8 @@ router.get('/', async function (req, res) {
     res.status(200).json(stations);
 
 });
+
+
 
 router.get('/nearestStationWithFreeBikes', async function (req, res) {
 
