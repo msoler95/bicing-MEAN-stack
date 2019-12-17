@@ -17,6 +17,7 @@
     "private": true,
     "main": "server.js",
     "scripts": {
+        "angular-deps": "cd public && npm install",
         "build": "cd public && ng build"
     }
 }
