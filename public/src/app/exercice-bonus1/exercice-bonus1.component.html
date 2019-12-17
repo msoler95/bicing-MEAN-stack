@@ -1,0 +1,61 @@
+<mat-card>
+    <h1>Bonus: Ejercicio 1 </h1>
+    <p> Enunciado: Para el caso de una estación de bicicletas, en el que como máximo hay 30 bicis. Queremos
+        saber cuantas veces ha habido menos bicis libres que un determinado valor X</p>
+
+</mat-card><br>
+<mat-card>
+    <p><b> Implementación guardarNuevoValor(x)</b></p>
+    <p>Como sabemos que como máximo habrá 30 bicis, podemos crear un array de tamaño 31 (la posición 0 no cuenta como
+        una bici) y
+        que cada posición represente un número de bicis introducidas.
+        Inicializaremos cada posición del array a 0. Cada vez introduzcamos un numero de bicis X, se sumará una unidad a
+        la posición X.
+        Ejemplo: '9.00h 5' sumaria una unidad a la posición 5. </p>
+    <p>Pseudocodigo:</p>
+    <textarea rows="7" cols="50">
+
+    bicis = [];
+    guardarNuevoValor(x): void {
+        bicis[x] += 1
+    }
+    </textarea>
+    <p>Ejemplo en vivo: </p>
+    <mat-form-field appearance="standard">
+        <mat-label>Nº bicis</mat-label>
+        <input matInput placeholder="Placeholder" type="number" [(ngModel)]="bici">
+        <mat-hint>Example: 3</mat-hint>
+    </mat-form-field>
+    <button class="button-return " (click)="add(bici)" mat-raised-button color="primary">Añadir</button>
+    Array: <span *ngIf="bicis">{{bicis}}</span>
+</mat-card><br>
+<mat-card>
+    <p> <b>Implementación vecesBicisLibresMenorQue(x)</b></p>
+    <p>Para saber el numero de bicis libres solo tendriamos que recoger los valores desde la posición 0 hasta la
+        posición x-1.
+        Ejemplo: vecesBicisLibresMenorQue(5) recogeriamos los valores guardados desde las posición 0 hasta la 4 y los
+        sumariamos.</p>
+    <p>Pseudocodigo:</p>
+    <textarea rows="8" cols="50">
+
+        <!-- vecesBicisLibresMenorQue(x): number {
+            let vecesLibres = 0;
+            for (var i = 0; i < x; ++i) { 
+                vecesLibres += bicis[i]; 
+            } 
+            return vecesLibres;
+        } -->
+        </textarea>
+    <p>Ejemplo en vivo: </p>
+    <mat-form-field appearance="standard">
+        <mat-label>Veces libres</mat-label>
+        <input matInput placeholder="Placeholder" type="number" [(ngModel)]="veces">
+        <mat-hint>Example: 3</mat-hint>
+    </mat-form-field>
+    <button class="button-return " (click)="vecesBicisLibresMenorQue(veces)" mat-raised-button
+        color="primary">Calcular</button>
+    <p>Veces libres: {{vecesLibres}} </p>
+
+
+
+</mat-card>

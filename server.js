@@ -22,10 +22,10 @@ var dummyRouter = require('./routes/dummyDBRoute');
 app.use('/stations', stationRouter);
 app.use('/createDummyDB', dummyRouter.router);
 
-app.use(express.static(__dirname + '/contactsapp'));
+app.use(express.static(__dirname + '/public/dist/bicingapp'));
 
 app.get('*', function (req, res) {
-    res.sendfile(__dirname + '/public/dist/contactsapp/index.html');
+    res.sendfile(__dirname + '/public/dist/bicingapp/index.html');
 });
 
 var port = config.serverPort;

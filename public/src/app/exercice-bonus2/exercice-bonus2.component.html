@@ -1,0 +1,33 @@
+<mat-card>
+    <h1>Bonus: Ejercicio 2 </h1>
+    <p> Escalamos la situación de una estación de bicicletas a la ocupación total de la ciudad de
+        Barcelona. Con lo que no podemos suponer cuántas bicicletas hay, no hay límite. Al igual
+        que el ejercicio anterior, queremos saber cuántas veces ha habido menos bicis libres que un
+        determinado valor X:
+    </p>
+
+</mat-card><br>
+<mat-card>
+    <p> ● Como pueden haber valores infinitos, yo lo que haria es guardar en una base de datos como mongo (con mongoose)
+        los pares</p>
+    <textarea cols="50">{numero_bicis: number, hora: date}</textarea>
+    <p> y después crearía un indice por numero_bicis.</p>
+    <p> ● De tal manera que la base datos quedaria como</p>
+    <textarea cols="100">
+        [{numero_bicis: 500, hora: 9},{numero_bicis: 550, hora:10},
+        {numero_bicis: 1000, hora: 12}, etc]
+        </textarea>
+    <p> ● Despues haria una consulta a la base de datos que me devolviera todos los documentos con numero_bicis menor al
+        deseado, y contaria el total de documentos recibidos</p>
+    <p>Pseudocodigo:</p>
+    <textarea cols="100" rows="7">
+        vecesBicisLibresMenorQue(x) {
+            Bicis.find( { numero_bicis: { $lt: x } }, function(bicis){
+                return(bicis.length)
+            } )
+        }
+    </textarea>
+
+
+
+</mat-card><br>

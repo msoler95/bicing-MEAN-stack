@@ -17,6 +17,6 @@
     "private": true,
     "main": "server.js",
     "scripts": {
-        "build": "cd './public' && ng build"
+        "build": "cd public && ng build"
     }
 }

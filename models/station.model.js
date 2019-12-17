@@ -6,7 +6,6 @@ module.exports = function () {
     var stationSchema = new Schema({
 
         id: { type: Number, required: true },
-
         name: { type: String, required: true },
         number: { type: Number, required: true },
         loc: { type: { type: String }, coordinates: [Number], name: String },

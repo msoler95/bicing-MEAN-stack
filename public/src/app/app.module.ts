@@ -59,6 +59,8 @@ import { Exercice22Component } from './exercice22/exercice22.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { FormsModule } from '@angular/forms';
+import { ExerciceBonus1Component } from './exercice-bonus1/exercice-bonus1.component';
+import { ExerciceBonus2Component } from './exercice-bonus2/exercice-bonus2.component';
 
 
 @NgModule({
@@ -124,7 +126,9 @@ import { FormsModule } from '@angular/forms';
     BarChartComponent,
     ScatterChartComponent,
     DisponibilityComponent,
-    Exercice22Component
+    Exercice22Component,
+    ExerciceBonus1Component,
+    ExerciceBonus2Component
   ],
 
   providers: [],
