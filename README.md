@@ -9,8 +9,9 @@ To install angular dependeces: `npm run angular-deps`
 
 Run: `npm run build`
 
-## Third start server
+## Third start bd and server
 
+Run: `mongod`
 Run: `npm start`
 
 Server should be running on localhost:8080
