@@ -7,10 +7,10 @@ To install angular dependeces: `npm run angular-deps`
 
 ## Second build
 
-Run: `npm run build'
+Run: `npm run build`
 
 ## Third start server
 
-Run: `npm start``
+Run: `npm start`
 
 Server should be running on localhost:8080
