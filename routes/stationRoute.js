@@ -9,18 +9,21 @@ router.get('/', async function (req, res) {
 
     let stations = [];
 
+    //Filter by station
+    if (req.query.id) stations = await getOneStation(req.query.id);
     //Filter by location
-    if (req.query.loc) {
+    else if (req.query.loc) {
+        var locArray = req.query.loc.split(',');
+        console.log(locArray)
         stations = await getStationsByLocation(locArray)
     }
-    //Filter by station
-    else if (req.query.id) stations = await getOneStation(req.query.id);
     //Not filtering 
     else stations = await getAllStations();
 
     //Filter by time
-    if (req.query.timeFrom) stations = await filterByTimeFrom(req.query.timeFrom, stations)
-    if (req.query.timeEnd) stations = await filterByTimeTo(req.query.timeEnd, stations)
+    if (req.query.timeFrom) stations = await filterByTimeFrom(moment(req.query.timeFrom), stations)
+    if (req.query.timeEnd) stations = await filterByTimeTo(moment(req.query.timeEnd), stations)
+
 
     console.log('ending')
     res.status(200).json(stations);
