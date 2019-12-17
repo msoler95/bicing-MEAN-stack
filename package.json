@@ -10,7 +10,7 @@
         "cors": "^2.7.1",
         "express": "^4.15.2",
         "moment": "^2.24.0",
-        "mongoose": "^4.9.8"
+        "mongoose": "^5.7.5"
     },
     "devDependencies": {},
     "bundleDependencies": [],
