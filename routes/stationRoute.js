@@ -24,7 +24,6 @@ router.get('/', async function (req, res) {
     if (req.query.timeFrom) stations = await filterByTimeFrom(moment(req.query.timeFrom), stations)
     if (req.query.timeEnd) stations = await filterByTimeTo(moment(req.query.timeEnd), stations)
 
-
     console.log('ending')
     res.status(200).json(stations);
 
@@ -103,6 +102,7 @@ var getNearestLocationWithFreeBikes = function (locArray) {
                     if (lastTime.bikes > 0) {
                         stationsLocated = station;
                         stationsLocated.distance = result.results[i].dis;
+                        stationsLocated.numberOfBikes = lastTime.bikes;
                         found = true;
                         //station.distance = result.results[i].obj
                     }
