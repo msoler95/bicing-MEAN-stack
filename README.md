@@ -35,7 +35,7 @@ You can visualize the frontend in localhost:8080
 
 Get all stations: localhost:8080/stations/
 
-Get near stations with free bikes: http://localhost:8080/stations/nearestStationWithFreeBikes/?&loc=41.379632,2.192662,1
+Get near stations with free bikes: localhost:8080/stations/nearestStationWithFreeBikes/?&loc=41.379632,2.192662,1
 
 Get stations by time: localhost:8080/stations/?&timeFrom=2019-12-18T02:15:00&timeEnd=2019-12-18T02:14:00
 
