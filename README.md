@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This project is created for thethings.io. There are 2 exercices and 2 bonus exercices. The exercices retrieve information from the bicing API and work with it. All the exercices are solved inside the website. 
+This project is created for thethings.io. There are 2 exercices and 2 bonus exercices. The server retrieves information each hour from the bicing API and updates the DB. All the exercices are solved inside the website. 
 
 ## Preview
 
