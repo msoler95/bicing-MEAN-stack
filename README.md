@@ -1,4 +1,4 @@
-# bicing dashboard
+# Bicing project
 
 ## Introduction
 
