@@ -6,9 +6,9 @@
         "npm": "^1.0.0"
     },
     "dependencies": {
-        "body-parser": "^1.12.2",
+        "body-parser": "^1.20.1",
         "cors": "^2.7.1",
-        "express": "^4.15.2",
+        "express": "^4.18.2",
         "moment": "^2.24.0",
         "mongoose": "^4.9.8"
     },
